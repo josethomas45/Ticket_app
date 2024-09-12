@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .booking-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .taxi-options {
+            margin: 1rem 0;
+        }
+
+        .taxi-option {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .taxi-option:hover {
+            background-color: #e9ecef;
+        }
+
+        .submit-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            outline: none;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <h1>Taxi Booking</h1>
+        <div class="form-group">
+            <label for="pickup">Pickup Location:</label>
+            <input type="text" id="pickup" placeholder="Enter pickup location">
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" placeholder="Enter destination">
+        </div>
+        <div class="form-group taxi-options">
+            <div class="taxi-option" data-type="standard" data-price="25">
+                Standard Taxi - $25
+            </div>
+            <div class="taxi-option" data-type="premium" data-price="50">
+                Premium Taxi - $50
+            </div>
+            <div class="taxi-option" data-type="luxury" data-price="100">
+                Luxury Taxi - $100
+            </div>
+        </div>
+        <a href="payment.html" class="submit-button-link">
+            <button type="submit" class="submit-button" id="bookButton">Book Taxi</button>
+          </a>
+          
+    </div>
+
+    <script>
+        const taxiOptions = document.querySelectorAll('.taxi-option');
+        let selectedTaxi = null;
+
+        taxiOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                taxiOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedTaxi = this;
+            });
+        });
+
+        document.getElementById('bookButton').addEventListener('click', function() {
+            const pickupLocation = document.getElementById('pickup').value;
+            const destination = document.getElementById('destination').value;
+
+            if (!pickupLocation || !destination) {
+                alert('Please enter both pickup and destination locations.');
+                return;
+            }
+
+            if (!selectedTaxi) {
+                alert('Please select a taxi type.');
+                return;
+            }
+
+            const taxiType = selectedTaxi.dataset.type;
+            const price = selectedTaxi.dataset.price;
+
+            alert(`Booking confirmed!\n\nPickup: ${pickupLocation}\nDestination: ${destination}\nTaxi Type: ${taxiType}\nPrice: $${price}`);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticket Booking</title>
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9; /* Light background for the page */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .booking-container {
+            background: #fff; /* White background for booking container */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .bus-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding: 1rem;
+            background: #fff; /* Changed to white to remove grey shade */
+            border-radius: 8px;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; /* Increased spacing between rows */
+        }
+
+        .left-side, .right-side {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left-side {
+            margin-right: 20px; /* Increased spacing between sides */
+        }
+
+        .right-side {
+            margin-left: 20px; /* Increased spacing between sides */
+        }
+
+        .seat {
+            background: #fff; /* Changed to white to remove grey shade */
+            border: 1px solid #ddd;
+            border-radius: 50%; /* Circular shape */
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-align: center;
+            margin: 10px; /* Increased margin to create more space between seats */
+            width: 80px; /* Adjusted width */
+            height: 80px; /* Adjusted height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px; /* Icon size */
+        }
+
+        .seat.economy {
+            background-color: #d6eaf8; /* Light blue for economy seats */
+        }
+
+        .seat.luxury {
+            background-color: #f8d7da; /* Light pink for luxury seats */
+        }
+
+        .seat.sleeper {
+            background-color: #d3f9d8; /* Light green for sleeper seats */
+        }
+
+        .seat.selected {
+            background-color: #007bff; /* Blue for selected seats */
+            color: #fff;
+        }
+
+        .seat.disabled {
+            background-color: #6c757d; /* Grey for disabled seats */
+            cursor: not-allowed;
+        }
+
+        .seat-price {
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .submit-button {
+            background-color: #007bff; /* Blue for submit button */
+            color: #fff;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            outline: none; /* Remove default outline */
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .submit-button:focus {
+            outline: none; /* Remove outline on focus */
+        }
+
+        /* Remove outline for other focusable elements */
+        input:focus, button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <h1>Bus Ticket Booking</h1>
+        <div class="bus-container" id="busContainer">
+            <!-- Seats will be dynamically added here -->
+        </div>
+        <button type="submit" class="submit-button" id="bookButton">Book Selected Seats</button>
+    </div>
+
+    <script>
+        const seatTypes = [
+            { type: 'luxury', icon: 'fa-couch', price: 1500 }, // Luxury seats
+            { type: 'economy', icon: 'fa-chair', price: 600 }, // Economy seats
+            { type: 'sleeper', icon: 'fa-bed', price: 1000 } // Sleeper seats
+        ];
+
+        const luxurySeatCount = 20;
+        const economySeatCount = 20;
+        const sleeperSeatCount = 10;
+        const rows = 10; // Number of rows
+        const seatsPerRowLeft = 2; // Number of seats on the left side of the passage
+        const seatsPerRowRight = 3; // Number of seats on the right side of the passage
+
+        const busContainer = document.getElementById('busContainer');
+
+        // Create bus seat layout
+        for (let i = 0; i < rows; i++) {
+            const row = document.createElement('div');
+            row.className = 'row';
+
+            const leftSide = document.createElement('div');
+            leftSide.className = 'left-side';
+
+            const rightSide = document.createElement('div');
+            rightSide.className = 'right-side';
+
+            for (let j = 0; j < seatsPerRowLeft; j++) {
+                const seatNumber = i * (seatsPerRowLeft + seatsPerRowRight) + j + 1;
+                const totalSeats = luxurySeatCount + economySeatCount + sleeperSeatCount;
+                
+                if (seatNumber > totalSeats) break;
+
+                let seatType;
+                if (seatNumber <= luxurySeatCount) {
+                    seatType = seatTypes[0]; // Luxury seats
+                } else if (seatNumber <= luxurySeatCount + economySeatCount) {
+                    seatType = seatTypes[1]; // Economy seats
+                } else {
+                    seatType = seatTypes[2]; // Sleeper seats
+                }
+
+                const seatButton = document.createElement('div');
+                seatButton.className = `seat ${seatType.type}`;
+                seatButton.dataset.type = seatType.type;
+                seatButton.dataset.price = seatType.price;
+                seatButton.innerHTML = `
+                    <i class="fas ${seatType.icon}"></i>
+                    <div class="seat-price">₹${seatType.price}</div>
+                `;
+
+                // Event listener to toggle seat selection
+                seatButton.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    this.classList.toggle('selected');
+                });
+
+                leftSide.appendChild(seatButton);
+            }
+
+            for (let j = 0; j < seatsPerRowRight; j++) {
+                const seatNumber = i * (seatsPerRowLeft + seatsPerRowRight) + seatsPerRowLeft + j + 1;
+                const totalSeats = luxurySeatCount + economySeatCount + sleeperSeatCount;
+
+                if (seatNumber > totalSeats) break;
+
+                let seatType;
+                if (seatNumber <= luxurySeatCount) {
+                    seatType = seatTypes[0]; // Luxury seats
+                } else if (seatNumber <= luxurySeatCount + economySeatCount) {
+                    seatType = seatTypes[1]; // Economy seats
+                } else {
+                    seatType = seatTypes[2]; // Sleeper seats
+                }
+
+                const seatButton = document.createElement('div');
+                seatButton.className = `seat ${seatType.type}`;
+                seatButton.dataset.type = seatType.type;
+                seatButton.dataset.price = seatType.price;
+                seatButton.innerHTML = `
+                    <i class="fas ${seatType.icon}"></i>
+                    <div class="seat-price">₹${seatType.price}</div>
+                `;
+
+                // Event listener to toggle seat selection
+                seatButton.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+                    this.classList.toggle('selected');
+                });
+
+                rightSide.appendChild(seatButton);
+            }
+
+            row.appendChild(leftSide);
+            row.appendChild(rightSide);
+            busContainer.appendChild(row);
+        }
+
+        document.getElementById('bookButton').addEventListener('click', function() {
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            if (selectedSeats.length === 0) {
+                alert('Please select at least one seat.');
+                return;
+            }
+
+            let totalAmount = 0;
+            selectedSeats.forEach(seat => {
+                totalAmount += parseFloat(seat.dataset.price);
+            });
+
+            alert(`You have booked ${selectedSeats.length} seat(s). Total amount: ₹${totalAmount}`);
+        });
+    </script>
+</body>
+</html>

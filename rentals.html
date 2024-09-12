@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentals</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 20px;
+        }
+        .option {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        .option img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        .option h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+        .option p {
+            color: #555;
+            font-size: 0.9em;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rentals</h1>
+        <div class="options">
+            <div class="option" onclick="window.location.href='bikerent.html'">
+                <img src="image/motorbike.png" alt="Bike Rentals">
+                <h3>Bike Rentals</h3>
+                <p>Rent a bike for your journey</p>
+            </div>
+            <div class="option" onclick="window.location.href='carrent.html'">
+                <img src="image/car.png" alt="Car Rentals">
+                <h3>Car Rentals</h3>
+                <p>Rent a car for your trip</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p><a href="home.html">Back to Home</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            min-height: 100vh; /* Ensure the body takes full height */
+            box-sizing: border-box; /* Ensure padding and borders are included in width and height calculations */
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 50px;
+            padding: 20px; /* Padding around the content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box; /* Ensure padding is included in width */
+        }
+        .welcome-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px; /* Fixed size for the welcome container */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            color: #007bff;
+            font-size: 2em; /* Fixed size for headings */
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-sizing: border-box; /* Ensure padding is included in width */
+        }
+        .option {
+            border-radius: 12px;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 220px; /* Fixed button width */
+            margin-top: 50px;
+            height: auto;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box; /* Ensure padding is included in width */
+        }
+        .option img {
+            width: 60px; /* Fixed size for images */
+            height: 60px;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+        .option:hover img {
+            transform: scale(1.2);
+        }
+        .option h3 {
+            margin: 10px 0;
+            font-size: 1.2em; /* Fixed size for headings inside buttons */
+            color: #007bff;
+        }
+        .option p {
+            color: #555;
+            font-size: 0.9em; /* Fixed size for paragraph text inside buttons */
+        }
+        .advertisement {
+            background-color: #ffffff;
+            padding: 40px; /* Increased padding for more space around the content */
+            border-radius: 12px;
+            margin-top: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1200px; /* Further increased size for the advertisement container */
+            text-align: center;
+            box-sizing: border-box; /* Ensure padding is included in width */
+        }
+        .advertisement iframe {
+            width: 100%;
+            height: 600px; /* Increased height for the iframe */
+            border: none; /* Removed border for a cleaner look */
+            border-radius: 12px;
+        }
+        .advertisement h2 {
+            margin-top: 0;
+            font-size: 1.8em; /* Slightly larger font size for better visibility */
+            color: #007bff;
+        }
+        .advertisement p {
+            font-size: 1em; /* Ensure the paragraph text is appropriately sized */
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .welcome-container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em; /* Adjust heading size for medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5em; /* Adjust heading size for smaller screens */
+            }
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+            .option {
+                width: 90%;
+                max-width: 220px; /* Keep the button width fixed */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2em; /* Adjust heading size for very small screens */
+            }
+            .option h3 {
+                font-size: 1em; /* Adjust heading size inside buttons */
+            }
+            .option p {
+                font-size: 0.8em; /* Adjust paragraph text size inside buttons */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-container">
+            <h1>Welcome, User!</h1>
+            <p>You're successfully logged in. Choose an option below:</p>
+        </div>
+        <div class="options">
+            <div class="option" onclick="navigate('profile.html')">
+                <img src="image/user.png" alt="Profile">
+                <h3>Profile</h3>
+                <p>Personal information</p>
+            </div>
+            <div class="option" onclick="navigate('busTicket.html')">
+                <img src="image/bus-stop.png" alt="Bus Ticket Payment">
+                <h3>Bus Ticket Payment</h3>
+                <p>Pay for your bus tickets</p>
+            </div>
+            <div class="option" onclick="navigate('taxi.html')">
+                <img src="image/taxi.png" alt="Taxi Booking">
+                <h3>Taxi Booking</h3>
+                <p>Book a taxi for your journey</p>
+            </div>
+            <div class="option" onclick="navigate('rentals.html')">
+                <img src="image/car-rent.png" alt="Car/Bike Rentals">
+                <h3>Car/Bike Rentals</h3>
+                <p>Rent a car or bike</p>
+            </div>
+        </div>
+
+        <div class="advertisement">
+            <h2>Advertisement</h2>
+            <iframe src="https://www.youtube.com/embed/ntjkwIXWtrc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p>Check out our latest offers and promotions!</p>
+        </div>
+    </div>
+
+    <script>
+        function navigate(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

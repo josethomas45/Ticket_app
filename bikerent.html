@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Rental Service</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #28a745;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            color: #28a745;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-align: center;
+        }
+        .bike-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .bike-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+        }
+        .bike-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .bike-item h3 {
+            margin: 10px 0;
+            color: #28a745;
+        }
+        .bike-item p {
+            padding: 0 10px;
+            color: #555;
+        }
+        .bike-item button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .bike-item button:hover {
+            background: #218838;
+        }
+        .rental-form {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .rental-form h2 {
+            color: #28a745;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .rental-form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .rental-form input, .rental-form select, .rental-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .rental-form button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .rental-form button:hover {
+            background: #218838;
+        }
+        footer {
+            background: #28a745;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bike Rental Service</h1>
+        <p>Rent the best bikes for your journey</p>
+    </header>
+
+    <div class="container">
+        <!-- Available Bikes Section -->
+        <section class="section">
+            <h2>Available Bikes</h2>
+            <div class="bike-list">
+                <div class="bike-item">
+                    <img src="image/mountain.png" alt="Bike 1">
+                    <h3>Mountain Bike</h3>
+                    <p>Perfect for rugged terrains and off-road adventures.</p>
+                    <button>Rent Now</button>
+                </div>
+                <div class="bike-item">
+                    <img src="image/road.png" alt="Bike 2">
+                    <h3>Road Bike</h3>
+                    <p>Ideal for long rides on smooth roads.</p>
+                    <button>Rent Now</button>
+                </div>
+                <div class="bike-item">
+                    <img src="image/fuel.png" alt="Bike 3">
+                    <h3>Hybrid Bike</h3>
+                    <p>Combines features of road and mountain bikes for versatile use.</p>
+                    <button>Rent Now</button>
+                </div>
+                <div class="bike-item">
+                    <img src="image/bike.png" alt="Bike 4">
+                    <h3>Electric Bike</h3>
+                    <p>Get around with ease using electric power.</p>
+                    <button>Rent Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rental Form Section -->
+        <section class="section">
+            <div class="rental-form">
+                <h2>Rent a Bike</h2>
+                <form action="submit_rental.php" method="post">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+
+                    <label for="bike">Select Bike</label>
+                    <select id="bike" name="bike" required>
+                        <option value="mountain">Mountain Bike</option>
+                        <option value="road">Road Bike</option>
+                        <option value="hybrid">Hybrid Bike</option>
+                        <option value="electric">Electric Bike</option>
+                    </select>
+
+                    <label for="rental_period">Rental Period (days)</label>
+                    <input type="number" id="rental_period" name="rental_period" required min="1">
+
+                    <label for="message">Additional Notes</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+
+                    <button type="submit">Submit Rental Request</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bike Rental Service. All rights reserved.</p>
+    </footer>
+</body>
+</html>

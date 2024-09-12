@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: relative; /* For positioning the pseudo-element */
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('image/A7B9F861-7467-47A3-8EBC-FD5FDE8D3191.png') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(8px); /* Adjust blur amount */
+            opacity: 0.5; /* Adjust opacity */
+            z-index: -1; /* Places the pseudo-element behind the content */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 50px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .welcome-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #007bff;
+            font-size: 2em;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .option {
+            border-radius: 12px;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.8);
+            margin-top: 50px;
+            height: auto;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .option img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+
+        .option:hover img {
+            transform: scale(1.2);
+        }
+
+        .option h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+
+        .option p {
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .advertisement {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .advertisement h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #007bff;
+        }
+
+        .advertisement iframe {
+            width: 100%;
+            height: 315px;
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .welcome-container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+            .option {
+                width: 90%;
+                max-width: 220px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2em;
+            }
+            .option h3 {
+                font-size: 1em;
+            }
+            .option p {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-container">
+            <h1>Welcome, User!</h1>
+            <p>You're successfully logged in. Choose an option below:</p>
+        </div>
+        <div class="options">
+            <div class="option" onclick="navigate('profile.html')">
+                <img src="image/user.png" alt="Profile">
+                <h3>Profile</h3>
+                <p>Personal information</p>
+            </div>
+            <div class="option" onclick="navigate('bus-tickets.html')">
+                <img src="image/bus-stop.png" alt="Bus Ticket Payment">
+                <h3>Bus Ticket Payment</h3>
+                <p>Pay for your bus tickets</p>
+            </div>
+            <div class="option" onclick="navigate('taxi.html')">
+                <img src="image/taxi.png" alt="Taxi Booking">
+                <h3>Taxi Booking</h3>
+                <p>Book a taxi for your journey</p>
+            </div>
+            <div class="option" onclick="navigate('rentels.html')">
+                <img src="image/car-rent.png" alt="Car/Bike Rentals">
+                <h3>Car/Bike Rentals</h3>
+                <p>Rent a car or bike</p>
+            </div>
+        </div>
+
+        <div class="advertisement">
+            <h2>Advertisement</h2>
+            <iframe src="https://www.youtube.com/embed/ntjkwIXWtrc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p>Check out our latest offers and promotions!</p>
+        </div>
+    </div>
+    <script>
+        function navigate(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
