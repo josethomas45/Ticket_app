@@ -1,291 +1,145 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Picture</title>
+    <title>Ticket App - Profile</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+        .profile-header {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            margin-bottom: 20px;
         }
-
-        .profile-container {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-        }
-
         .profile-pic {
-            border-radius: 50%;
             width: 120px;
             height: 120px;
+            border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 1rem;
+            border: 4px solid var(--primary-color);
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        .profile-info {
-            font-size: 1rem;
-            color: #333;
-        }
-
-        .edit-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 1rem;
-            transition: background-color 0.3s ease;
-            outline: none;
-        }
-
-        .edit-button:hover {
-            background-color: #0056b3;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        .profile-details {
+            text-align: left;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.4);
+            padding: 20px;
+            border-radius: var(--border-radius-md);
         }
-
-        .modal-content {
-            background: #fff;
-            border-radius: 8px;
-            padding: 2rem;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        .modal-content input[type="text"],
-        .modal-content input[type="number"],
-        .modal-content input[type="file"],
-        .modal-content input[type="email"] {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-        }
-
-        .modal-content button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
+        .profile-details p {
+            margin-bottom: 10px;
             font-size: 1rem;
-            width: 100%;
-            transition: background-color 0.3s ease;
-            outline: none;
+            color: var(--text-main);
         }
-
-        .modal-content button:hover {
-            background-color: #0056b3;
-        }
-
-        .close-button {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .recharge-button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 1rem;
-            transition: background-color 0.3s ease;
-            outline: none;
-        }
-
-        .recharge-button:hover {
-            background-color: #218838;
+        .profile-details strong {
+            color: var(--primary-color);
+            display: inline-block;
+            width: 140px;
         }
     </style>
 </head>
 <body>
-    <div class="profile-container">
-        <!-- Profile Picture -->
-        <img id="profilePic" class="profile-pic" src="image/user.png" alt="Profile Picture">
+    <div class="center-wrapper">
+        <div class="glass-panel">
+            <div class="profile-header">
+                <img id="profilePic" class="profile-pic" src="image/user.png" alt="Profile Picture">
+                <h2>My Profile</h2>
+            </div>
+            
+            <div class="profile-details">
+                <p><strong>Username:</strong> <span id="username">JohnDoe</span></p>
+                <p><strong>Address:</strong> <span id="address">123 Main St, Springfield</span></p>
+                <p><strong>Email:</strong> <span id="email">johndoe@example.com</span></p>
+                <p><strong>Phone:</strong> <span id="phone">123-456-7890</span></p>
+                <p><strong>Wallet Balance:</strong> <span id="walletBalance" style="font-weight: 600; color: var(--secondary-color);">$50.00</span></p>
+            </div>
 
-        <!-- Profile Information -->
-        <div class="profile-info">
-            <p><strong>Username:</strong> <span id="username">JohnDoe</span></p>
-            <p><strong>Address:</strong> <span id="address">123 Main St, Springfield</span></p>
-            <p><strong>Email:</strong> <span id="email">johndoe@example.com</span></p>
-            <p><strong>Phone Number:</strong> <span id="phone">123-456-7890</span></p>
-            <p><strong>Wallet Balance:</strong> <span id="walletBalance">50.00</span></p>
+            <button class="btn-primary" onclick="openModal('editModal')">Edit Profile</button>
+            <button class="btn-success" onclick="openModal('rechargeModal')">Recharge Wallet</button>
+            
+            <div class="footer-text">
+                <a href="home.html">&larr; Back to Dashboard</a>
+            </div>
         </div>
-
-        <!-- Edit Profile Button -->
-        <button class="edit-button" id="editProfileButton">Edit Profile</button>
-        <!-- Recharge Wallet Button -->
-        <button class="recharge-button" id="rechargeWalletButton">Recharge Wallet</button>
     </div>
 
-    <!-- Modal for Editing Profile -->
-    <div class="modal" id="editModal">
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
         <div class="modal-content">
-            <span class="close-button" id="closeModal">&times;</span>
-            <h2>Edit Profile</h2>
+            <span class="modal-close" onclick="closeModal('editModal')">&times;</span>
+            <h2 style="margin-bottom: 20px;">Edit Profile</h2>
             <form id="editForm">
-                <label for="profilePicInput">Profile Picture:</label>
-                <input type="file" id="profilePicInput" accept="image/*">
-
-                <label for="usernameInput">Username:</label>
-                <input type="text" id="usernameInput" value="JohnDoe">
-
-                <label for="addressInput">Address:</label>
-                <input type="text" id="addressInput" value="123 Main St, Springfield">
-
-                <label for="emailInput">Email:</label>
-                <input type="email" id="emailInput" value="johndoe@example.com">
-
-                <label for="phoneInput">Phone Number:</label>
-                <input type="text" id="phoneInput" value="123-456-7890">
-
-                <!-- Bank Balance Field (Disabled) -->
-                <label for="bankBalanceInput">Bank Balance:</label>
-                <input type="number" id="bankBalanceInput" value="200.00" step="0.01" min="0" disabled>
-
-                <button type="submit">Save Changes</button>
+                <div class="form-group">
+                    <label>Profile Picture</label>
+                    <input type="file" id="profilePicInput" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="usernameInput" value="JohnDoe">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="emailInput" value="johndoe@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="phoneInput" value="123-456-7890">
+                </div>
+                <button type="submit" class="btn-primary">Save Changes</button>
             </form>
         </div>
     </div>
 
-    <!-- Modal for Recharging Wallet -->
-    <div class="modal" id="rechargeModal">
+    <!-- Recharge Modal -->
+    <div class="modal-overlay" id="rechargeModal">
         <div class="modal-content">
-            <span class="close-button" id="closeRechargeModal">&times;</span>
-            <h2>Recharge Wallet</h2>
+            <span class="modal-close" onclick="closeModal('rechargeModal')">&times;</span>
+            <h2 style="margin-bottom: 20px;">Recharge Wallet</h2>
             <form id="rechargeForm">
-                <label for="rechargeAmount">Amount to Recharge:</label>
-                <input type="number" id="rechargeAmount" step="0.01" min="0" required>
-
-                <button type="submit">Recharge</button>
+                <div class="form-group">
+                    <label>Amount to Recharge ($)</label>
+                    <input type="number" id="rechargeAmount" step="0.01" min="1" required>
+                </div>
+                <button type="submit" class="btn-success">Confirm Recharge</button>
             </form>
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
-        const editButton = document.getElementById('editProfileButton');
-        const rechargeButton = document.getElementById('rechargeWalletButton');
-        const editModal = document.getElementById('editModal');
-        const rechargeModal = document.getElementById('rechargeModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeRechargeModal = document.getElementById('closeRechargeModal');
-        const profilePicInput = document.getElementById('profilePicInput');
-        const profilePic = document.getElementById('profilePic');
-        const usernameInput = document.getElementById('usernameInput');
-        const addressInput = document.getElementById('addressInput');
-        const emailInput = document.getElementById('emailInput');
-        const phoneInput = document.getElementById('phoneInput');
-        const bankBalanceInput = document.getElementById('bankBalanceInput');
-        const rechargeAmount = document.getElementById('rechargeAmount');
-        const username = document.getElementById('username');
-        const address = document.getElementById('address');
-        const email = document.getElementById('email');
-        const phone = document.getElementById('phone');
-        const walletBalance = document.getElementById('walletBalance');
-        const editForm = document.getElementById('editForm');
-        const rechargeForm = document.getElementById('rechargeForm');
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
 
-        // Show the edit profile modal
-        editButton.addEventListener('click', () => {
-            editModal.style.display = 'flex';
-        });
-
-        // Show the recharge wallet modal
-        rechargeButton.addEventListener('click', () => {
-            rechargeModal.style.display = 'flex';
-        });
-
-        // Close the edit profile modal
-        closeModal.addEventListener('click', () => {
-            editModal.style.display = 'none';
-        });
-
-        // Close the recharge wallet modal
-        closeRechargeModal.addEventListener('click', () => {
-            rechargeModal.style.display = 'none';
-        });
-
-        // Handle form submission for editing profile
-        editForm.addEventListener('submit', (e) => {
+        document.getElementById('editForm').addEventListener('submit', (e) => {
             e.preventDefault();
-
-            // Update profile picture
-            const file = profilePicInput.files[0];
+            const file = document.getElementById('profilePicInput').files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = () => {
-                    profilePic.src = reader.result;
-                };
+                reader.onload = () => { document.getElementById('profilePic').src = reader.result; };
                 reader.readAsDataURL(file);
             }
-
-            // Update username, address, email, and phone
-            username.textContent = usernameInput.value;
-            address.textContent = addressInput.value;
-            email.textContent = emailInput.value;
-            phone.textContent = phoneInput.value;
-
-            // Close the edit profile modal
-            editModal.style.display = 'none';
+            document.getElementById('username').textContent = document.getElementById('usernameInput').value;
+            document.getElementById('email').textContent = document.getElementById('emailInput').value;
+            document.getElementById('phone').textContent = document.getElementById('phoneInput').value;
+            closeModal('editModal');
         });
 
-        // Handle form submission for recharging wallet
-        rechargeForm.addEventListener('submit', (e) => {
+        document.getElementById('rechargeForm').addEventListener('submit', (e) => {
             e.preventDefault();
-
-            // Get recharge amount
-            const amount = parseFloat(rechargeAmount.value);
+            const amount = parseFloat(document.getElementById('rechargeAmount').value);
             if (amount > 0) {
-                // Update wallet balance
-                let currentBalance = parseFloat(walletBalance.textContent.replace('$', ''));
-                walletBalance.textContent = `$${(currentBalance + amount).toFixed(2)}`;
+                const walletEl = document.getElementById('walletBalance');
+                let current = parseFloat(walletEl.textContent.replace('$', ''));
+                walletEl.textContent = `$${(current + amount).toFixed(2)}`;
             }
-
-            // Close the recharge wallet modal
-            rechargeModal.style.display = 'none';
-        });
-
-        // Close the modals when clicking outside the modal content
-        window.addEventListener('click', (event) => {
-            if (event.target === editModal) {
-                editModal.style.display = 'none';
-            }
-            if (event.target === rechargeModal) {
-                rechargeModal.style.display = 'none';
-            }
+            closeModal('rechargeModal');
         });
     </script>
 </body>

@@ -3,146 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Ticket Booking</title>
+    <title>Seat Selection</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Override body styles for iframe */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            background: transparent;
+            min-height: auto;
+            padding: 10px;
         }
-
-        .booking-container {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 900px;
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-
         .bus-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            padding: 1rem;
-            background: #fff;
-            border-radius: 8px;
+            margin-top: 0;
+            padding: 20px;
             width: 100%;
-            max-width: 900px;
-            box-sizing: border-box;
         }
-
-        .row {
+        .legend {
             display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .left-side, .right-side {
-            display: flex;
-            flex-direction: row;
-        }
-
-        .left-side {
-            margin-right: 20px;
-        }
-
-        .right-side {
-            margin-left: 20px;
-        }
-
-        .seat {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 50%;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            text-align: center;
-            margin: 10px;
-            width: 80px;
-            height: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            font-size: 24px;
+            gap: 20px;
+            margin-bottom: 25px;
         }
-
-        .seat.economy {
-            background-color: #d6eaf8;
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
-
-        .seat.luxury {
-            background-color: #f8d7da;
-        }
-
-        .seat.sleeper {
-            background-color: #d3f9d8;
-        }
-
-        .seat.selected {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .seat.disabled {
-            background-color: #6c757d;
-            cursor: not-allowed;
-        }
-
-        .seat-price {
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .submit-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-            transition: background-color 0.3s ease;
-            outline: none;
-        }
-
-        .submit-button:hover {
-            background-color: #0056b3;
-        }
-
-        .submit-button:focus {
-            outline: none;
-        }
-
-        input:focus, button:focus {
-            outline: none;
+        .legend-color {
+            width: 20px; height: 20px; border-radius: 4px; margin-right: 8px;
         }
     </style>
 </head>
 <body>
-    <div class="booking-container">
-        <h1>Bus Ticket Booking</h1>
-        <div class="bus-container" id="busContainer">
-            <!-- Seats will be dynamically added here -->
+    <div class="bus-container" id="busContainer">
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color" style="background: #FCE7F3;"></div> Luxury</div>
+            <div class="legend-item"><div class="legend-color" style="background: #E0F2FE;"></div> Economy</div>
+            <div class="legend-item"><div class="legend-color" style="background: #DCFCE7;"></div> Sleeper</div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--primary-color);"></div> Selected</div>
         </div>
-        <button type="submit" class="submit-button" id="bookButton">Book Selected Seats</button>
+        
+        <div id="seatsGrid">
+            <!-- Seats injected here -->
+        </div>
+        
+        <div style="margin-top: 25px; width: 100%; text-align: center;">
+            <p id="selectionStatus" style="margin-bottom: 15px; font-weight: 500;">Please select seats.</p>
+            <button type="button" class="btn-success" id="bookButton">Confirm Booking</button>
+        </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
         const seatTypes = [
             { type: 'luxury', icon: 'fa-couch', price: 1500 },
@@ -150,133 +62,103 @@
             { type: 'sleeper', icon: 'fa-bed', price: 1000 }
         ];
 
-        const luxurySeatCount = 20;
-        const economySeatCount = 20;
-        const sleeperSeatCount = 10;
-        const rows = 10;
+        const luxurySeatCount = 12;
+        const economySeatCount = 16;
+        const sleeperSeatCount = 8;
+        const rows = 9;
         const seatsPerRowLeft = 2;
-        const seatsPerRowRight = 3;
+        const seatsPerRowRight = 2;
+        const totalSeats = luxurySeatCount + economySeatCount + sleeperSeatCount;
 
-        const busContainer = document.getElementById('busContainer');
+        const seatsGrid = document.getElementById('seatsGrid');
+        const selectionStatus = document.getElementById('selectionStatus');
 
-        let maxSeats = new URLSearchParams(window.location.search).get('maxSeats');
-        let passengers = parseInt(maxSeats, 10) || 1;
+        let passengers = parseInt(getQueryParam('maxSeats')) || 1;
+        selectionStatus.textContent = `Please select ${passengers} seat(s).`;
 
-        // Create bus seat layout
         for (let i = 0; i < rows; i++) {
             const row = document.createElement('div');
-            row.className = 'row';
+            row.className = 'seat-row';
 
             const leftSide = document.createElement('div');
-            leftSide.className = 'left-side';
+            leftSide.className = 'seat-group';
 
             const rightSide = document.createElement('div');
-            rightSide.className = 'right-side';
+            rightSide.className = 'seat-group';
 
             for (let j = 0; j < seatsPerRowLeft; j++) {
-                const seatNumber = i * (seatsPerRowLeft + seatsPerRowRight) + j + 1;
-                const totalSeats = luxurySeatCount + economySeatCount + sleeperSeatCount;
-                
-                if (seatNumber > totalSeats) break;
-
-                let seatType;
-                if (seatNumber <= luxurySeatCount) {
-                    seatType = seatTypes[0];
-                } else if (seatNumber <= luxurySeatCount + economySeatCount) {
-                    seatType = seatTypes[1];
-                } else {
-                    seatType = seatTypes[2];
-                }
-
-                const seatButton = document.createElement('div');
-                seatButton.className = `seat ${seatType.type}`;
-                seatButton.dataset.type = seatType.type;
-                seatButton.dataset.price = seatType.price;
-                seatButton.innerHTML = `
-                    <i class="fas ${seatType.icon}"></i>
-                    <div class="seat-price">₹${seatType.price}</div>
-                `;
-
-                seatButton.addEventListener('click', function() {
-                    if (this.classList.contains('disabled')) return;
-
-                    const selectedSeats = document.querySelectorAll('.seat.selected');
-                    if (this.classList.contains('selected')) {
-                        this.classList.remove('selected');
-                    } else if (selectedSeats.length < passengers) {
-                        this.classList.add('selected');
-                    } else {
-                        alert(`You can only select ${passengers} seat(s).`);
-                    }
-                });
-
-                leftSide.appendChild(seatButton);
+                createSeat(i * (seatsPerRowLeft + seatsPerRowRight) + j + 1, leftSide);
             }
 
             for (let j = 0; j < seatsPerRowRight; j++) {
-                const seatNumber = i * (seatsPerRowLeft + seatsPerRowRight) + seatsPerRowLeft + j + 1;
-                const totalSeats = luxurySeatCount + economySeatCount + sleeperSeatCount;
-
-                if (seatNumber > totalSeats) break;
-
-                let seatType;
-                if (seatNumber <= luxurySeatCount) {
-                    seatType = seatTypes[0];
-                } else if (seatNumber <= luxurySeatCount + economySeatCount) {
-                    seatType = seatTypes[1];
-                } else {
-                    seatType = seatTypes[2];
-                }
-
-                const seatButton = document.createElement('div');
-                seatButton.className = `seat ${seatType.type}`;
-                seatButton.dataset.type = seatType.type;
-                seatButton.dataset.price = seatType.price;
-                seatButton.innerHTML = `
-                    <i class="fas ${seatType.icon}"></i>
-                    <div class="seat-price">₹${seatType.price}</div>
-                `;
-
-                seatButton.addEventListener('click', function() {
-                    if (this.classList.contains('disabled')) return;
-
-                    const selectedSeats = document.querySelectorAll('.seat.selected');
-                    if (this.classList.contains('selected')) {
-                        this.classList.remove('selected');
-                    } else if (selectedSeats.length < passengers) {
-                        this.classList.add('selected');
-                    } else {
-                        alert(`You can only select ${passengers} seat(s).`);
-                    }
-                });
-
-                rightSide.appendChild(seatButton);
+                createSeat(i * (seatsPerRowLeft + seatsPerRowRight) + seatsPerRowLeft + j + 1, rightSide);
             }
 
             row.appendChild(leftSide);
             row.appendChild(rightSide);
-            busContainer.appendChild(row);
+            seatsGrid.appendChild(row);
+        }
+
+        function createSeat(seatNumber, container) {
+            if (seatNumber > totalSeats) return;
+
+            let seatType = seatNumber <= luxurySeatCount ? seatTypes[0] : 
+                           seatNumber <= luxurySeatCount + economySeatCount ? seatTypes[1] : 
+                           seatTypes[2];
+
+            const seatBtn = document.createElement('div');
+            seatBtn.className = `seat-btn ${seatType.type}`;
+            seatBtn.dataset.price = seatType.price;
+            
+            // Randomly disable some seats for realism
+            if(Math.random() < 0.2) {
+                seatBtn.classList.add('disabled');
+            }
+
+            seatBtn.innerHTML = `
+                <i class="fas ${seatType.icon}"></i>
+                <div class="seat-price">₹${seatType.price}</div>
+            `;
+
+            seatBtn.addEventListener('click', function() {
+                if (this.classList.contains('disabled')) return;
+
+                const selected = document.querySelectorAll('.seat-btn.selected');
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                } else if (selected.length < passengers) {
+                    this.classList.add('selected');
+                } else {
+                    alert(`You can only select ${passengers} seat(s).`);
+                }
+                updateStatus();
+            });
+
+            container.appendChild(seatBtn);
+        }
+
+        function updateStatus() {
+            const selected = document.querySelectorAll('.seat-btn.selected').length;
+            if(selected === passengers) {
+                selectionStatus.textContent = `All ${passengers} seat(s) selected. Ready to confirm!`;
+                selectionStatus.style.color = 'var(--secondary-color)';
+            } else {
+                selectionStatus.textContent = `Selected ${selected} of ${passengers} seat(s).`;
+                selectionStatus.style.color = 'var(--text-main)';
+            }
         }
 
         document.getElementById('bookButton').addEventListener('click', function() {
-            const selectedSeats = document.querySelectorAll('.seat.selected');
-            if (selectedSeats.length === 0) {
-                alert('Please select at least one seat.');
-                return;
-            }
-
+            const selectedSeats = document.querySelectorAll('.seat-btn.selected');
             if (selectedSeats.length !== passengers) {
                 alert(`Please select exactly ${passengers} seat(s).`);
                 return;
             }
 
             let totalAmount = 0;
-            selectedSeats.forEach(seat => {
-                totalAmount += parseFloat(seat.dataset.price);
-            });
+            selectedSeats.forEach(seat => { totalAmount += parseFloat(seat.dataset.price); });
 
-            // Navigate to payment.html
-            window.location.href = 'payment.html?total=' + totalAmount;
+            window.parent.location.href = 'payment.html?total=' + totalAmount;
         });
     </script>
 </body>

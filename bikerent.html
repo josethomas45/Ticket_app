@@ -3,191 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bike Rental Service</title>
+    <title>Ticket App - Bike Rentals</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-            color: #333;
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-bottom: 50px;
         }
-        header {
-            background: #28a745;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
+        .car-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: transform var(--transition-speed);
         }
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .car-card:hover {
+            transform: translateY(-5px);
         }
-        .section {
-            margin-bottom: 40px;
-        }
-        .section h2 {
-            color: #28a745;
-            margin-bottom: 20px;
-            font-size: 2em;
-            text-align: center;
-        }
-        .bike-list {
+        .car-img-container {
+            width: 100%;
+            height: 180px;
+            background: #fff;
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            align-items: center;
             justify-content: center;
         }
-        .bike-item {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            width: 300px;
-            text-align: center;
+        .car-card img {
+            max-width: 70%;
+            max-height: 70%;
+            object-fit: contain;
         }
-        .bike-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .bike-item h3 {
-            margin: 10px 0;
-            color: #28a745;
-        }
-        .bike-item p {
-            padding: 0 10px;
-            color: #555;
-        }
-        .bike-item button {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        .bike-item button:hover {
-            background: #218838;
-        }
-        .rental-form {
-            background: white;
-            border-radius: 8px;
+        .car-details {
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .rental-form h2 {
-            color: #28a745;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-        .rental-form label {
-            display: block;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .rental-form input, .rental-form select, .rental-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .rental-form button {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .rental-form button:hover {
-            background: #218838;
-        }
-        footer {
-            background: #28a745;
-            color: white;
-            padding: 10px 0;
             text-align: center;
+        }
+        .car-details h3 {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+        }
+        .car-details p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Bike Rental Service</h1>
-        <p>Rent the best bikes for your journey</p>
-    </header>
-
-    <div class="container">
-        <!-- Available Bikes Section -->
-        <section class="section">
-            <h2>Available Bikes</h2>
-            <div class="bike-list">
-                <div class="bike-item">
-                    <img src="image/mountain.png" alt="Bike 1">
-                    <h3>Mountain Bike</h3>
-                    <p>Perfect for rugged terrains and off-road adventures.</p>
-                    <button>Rent Now</button>
-                </div>
-                <div class="bike-item">
-                    <img src="image/road.png" alt="Bike 2">
-                    <h3>Road Bike</h3>
-                    <p>Ideal for long rides on smooth roads.</p>
-                    <button>Rent Now</button>
-                </div>
-                <div class="bike-item">
-                    <img src="image/fuel.png" alt="Bike 3">
-                    <h3>Hybrid Bike</h3>
-                    <p>Combines features of road and mountain bikes for versatile use.</p>
-                    <button>Rent Now</button>
-                </div>
-                <div class="bike-item">
-                    <img src="image/bike.png" alt="Bike 4">
-                    <h3>Electric Bike</h3>
-                    <p>Get around with ease using electric power.</p>
-                    <button>Rent Now</button>
+    <div class="app-container">
+        <h1 style="color: var(--primary-color); margin-bottom: 10px;">Available Bikes for Rent</h1>
+        <p style="margin-bottom: 40px; text-align: center;">Agile rides for quick city exploration</p>
+        
+        <div class="car-grid">
+            <div class="car-card">
+                <div class="car-img-container"><img src="image/motorbike.png" alt="Bike 1"></div>
+                <div class="car-details">
+                    <h3>City Scooter</h3>
+                    <p>Perfect for zipping through traffic easily.</p>
+                    <button class="btn-primary" onclick="rentVehicle('City Scooter', 25)">Rent for $25/day</button>
                 </div>
             </div>
-        </section>
-
-        <!-- Rental Form Section -->
-        <section class="section">
-            <div class="rental-form">
-                <h2>Rent a Bike</h2>
-                <form action="submit_rental.php" method="post">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required>
-
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required>
-
-                    <label for="bike">Select Bike</label>
-                    <select id="bike" name="bike" required>
-                        <option value="mountain">Mountain Bike</option>
-                        <option value="road">Road Bike</option>
-                        <option value="hybrid">Hybrid Bike</option>
-                        <option value="electric">Electric Bike</option>
-                    </select>
-
-                    <label for="rental_period">Rental Period (days)</label>
-                    <input type="number" id="rental_period" name="rental_period" required min="1">
-
-                    <label for="message">Additional Notes</label>
-                    <textarea id="message" name="message" rows="4"></textarea>
-
-                    <button type="submit">Submit Rental Request</button>
-                </form>
+            <div class="car-card">
+                <div class="car-img-container"><img src="image/motor sports.png" alt="Bike 2"></div>
+                <div class="car-details">
+                    <h3>Sports Bike</h3>
+                    <p>High speed and great handling.</p>
+                    <button class="btn-primary" onclick="rentVehicle('Sports Bike', 60)">Rent for $60/day</button>
+                </div>
             </div>
-        </section>
+            <div class="car-card">
+                <div class="car-img-container"><img src="image/cruiser.png" alt="Bike 3"></div>
+                <div class="car-details">
+                    <h3>Cruiser</h3>
+                    <p>Comfortable riding for long trips.</p>
+                    <button class="btn-primary" onclick="rentVehicle('Cruiser', 50)">Rent for $50/day</button>
+                </div>
+            </div>
+            <div class="car-card">
+                <div class="car-img-container"><img src="image/dirt bike.png" alt="Bike 4"></div>
+                <div class="car-details">
+                    <h3>Dirt Bike</h3>
+                    <p>For off-road adventures.</p>
+                    <button class="btn-primary" onclick="rentVehicle('Dirt Bike', 40)">Rent for $40/day</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-text">
+            <a href="rentals.html">&larr; Back to Rentals</a>
+        </div>
     </div>
 
-    <footer>
-        <p>&copy; 2024 Bike Rental Service. All rights reserved.</p>
-    </footer>
+    <script src="app.js"></script>
+    <script>
+        function rentVehicle(name, price) {
+            if(confirm(`Rent ${name} for $${price}/day?`)) {
+                navigateTo(`payment.html?total=${price}&type=${encodeURIComponent(name)}`);
+            }
+        }
+    </script>
 </body>
 </html>
